@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Delete Suppliers{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center;">Delete Suppliers</h2>
+
+<form method="post" style="max-width:600px; margin:20px auto; background:#f8f8f8; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+    {% csrf_token %}
+    {% for supplier in suppliers %}
+    <div style="display:flex; align-items:center; margin-bottom:10px;">
+        <input type="checkbox" name="supplier_ids" value="{{ supplier.id }}" style="margin-right:10px;">
+        <span>{{ supplier.name }} ({{ supplier.company }})</span>
+    </div>
+    {% empty %}
+    <p>No suppliers to delete.</p>
+    {% endfor %}
+    <button type="submit" style="background:#b00020; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Delete Selected</button>
+</form>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-center">Get in Touch</h1>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Contact Form</h5>
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter Your Name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="enter your Email">
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="We'd love to listen from you!!"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Contact Details</h5>
+        <p><strong>Warehouse Tech Inc.</strong></p>
+        <p>Warehouse Tech Inc., Bangalore - 560056</p>
+        <p><strong>Email:</strong> supportwarehousetech@gmail.com</p>
+        <p><strong>Phone:</strong> +91 1234567890</p>
+        <hr>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card shadow-sm mt-4">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Our Location</h5>
+        <div class="ratio ratio-16x9">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.188253448108!2d77.49991851482092!3d12.953625290860717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f285972d3b1%3A0x178b06e590eac91d!2sDr.%20Ambedkar%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1717266118881!5m2!1sen!2sin"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

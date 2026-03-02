@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 text-center fw-bold">About Us</h1>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm p-4 mb-4" style="background-color:#E6FDFF;">
+      <h2 class="card-title">Who We Are</h2>
+      <p class="card-text">
+        At <strong>Warehouse Tech Inc.</strong>, we are redefining the way warehouses operate. With cutting-edge technology, seamless integrations, and data-driven insights, we empower businesses to manage their inventory, orders, and shipments effortlessly.
+      </p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4" style="background-color: #E6FDFF;">
+      <h2 class="card-title">Our Mission</h2>
+      <p class="card-text">
+        Our mission is to revolutionize the supply chain ecosystem, making warehouse management efficient, transparent, and accessible to businesses of all sizes. We believe in empowering our clients with tools that simplify operations and drive growth.
+      </p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4"style="background-color:#E6FDFF;">
+      <h2 class="card-title">Core Values</h2>
+      <ul class="card-text list-unstyled">
+        <li>🔹 <strong>Innovation</strong>: We embrace technology to solve real-world challenges.</li>
+        <li>🔹 <strong>Efficiency</strong>: We streamline processes to save time and resources.</li>
+        <li>🔹 <strong>Reliability</strong>: We deliver robust solutions that businesses can trust.</li>
+        <li>🔹 <strong>Customer Success</strong>: Your success is our top priority.</li>
+      </ul>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4 text-center">
+      <h2 class="card-title">Let's Build the Future Together 🚀</h2>
+      <p class="card-text">
+        Whether you're a small business or an enterprise, Warehouse Tech Inc. is your partner in scaling new heights. Join us in transforming warehouses into smart, connected hubs of efficiency.
+      </p>
+      <a href="{% url 'contact' %}" class="btn btn-primary">Get in Touch</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

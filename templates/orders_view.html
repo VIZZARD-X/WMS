@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4 text-center fw-bold">Order Details</h1>
+
+  <div class="d-flex justify-content-center">
+    <div class="card shadow p-4" style="width: 22rem; border-radius: 15px;">
+      <div class="card-body">
+        <h5 class="card-title fw-bold text-center mb-3">Order #{{ order.id }}</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Product:</strong> {{ order.product }}
+          </li>
+          <li class="list-group-item">
+            <strong>Quantity:</strong> {{ order.quantity }}
+          </li>
+          <li class="list-group-item">
+            <strong>Status:</strong> 
+            <span class="badge 
+              {% if order.status == 'Completed' %}bg-success
+              {% elif order.status == 'Pending' %}bg-warning text-dark
+              {% else %}bg-info text-dark{% endif %}">
+              {{ order.status }}
+            </span>
+          </li>
+          <li class="list-group-item">
+            <strong>Created At:</strong> {{ order.created_at|date:"M d, Y H:i" }}
+          </li>
+        </ul>
+        <div class="text-center mt-4">
+          <a href="{% url 'orders' %}" class="btn btn-secondary">Back to Orders</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login</title>
+<style>
+    /* Eye toggle button container */
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Password input style inside container */
+.password-container input[type="password"],
+.password-container input[type="text"] {
+  padding-right: 35px; /* enough space for eye button */
+  font-size: 1rem;
+}
+
+/* Eye toggle button */
+.toggle-password {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #764ba2;
+  outline: none;
+  user-select: none;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: #5a357a;
+}
+
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 50px;
+    width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeInScale 0.6s ease forwards;
+  }
+
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  h2 {
+    margin: 0 0 25px 0;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #764ba2;
+    outline: none;
+    box-shadow: 0 0 8px rgba(118, 75, 162, 0.4);
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 14px 0;
+    background: #764ba2;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.4s ease;
+  }
+
+  button[type="submit"]:hover {
+    background: #5a357a;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 18px;
+    color: #555;
+    font-size: 0.9rem;
+  }
+
+  p a {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+
+  p a:hover {
+    color: #5a357a;
+  }
+
+  /* Message styling */
+  .messages {
+    margin-bottom: 15px;
+  }
+
+  .messages p {
+    background:rgb(140, 241, 154);
+    color:rgb(8, 117, 50);
+    border: 1px solidrgb(24, 81, 10);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    animation: slideIn 0.4s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required autocomplete="username" />
+
+      <label for="password">Password:</label>
+      <div class="password-container">
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+        <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>.</p>
+  </div>
+
+<script>
+  document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', () => {
+      const container = button.parentElement;
+      const input = container.querySelector('input');
+      if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        button.textContent = '👁️';
+      }
+    });
+  });
+</script>
+</body>
+</html>

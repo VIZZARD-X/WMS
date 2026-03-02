@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}View Items{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center; margin: 20px 0;">Items in Aisles</h2>
+
+<!-- Add Item Button -->
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="{% url 'add_item' %}" class="button" style="padding: 10px 20px; background: #4CAF50; color: white; border-radius: 8px; text-decoration: none;">Add Item</a>
+</div>
+
+<!-- Items Table -->
+<table style="width: 95%; margin: auto; border-collapse: collapse; box-shadow: 0 0 12px rgba(0,0,0,0.1);">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ddd;">ID</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Name</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">SKU</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Quantity</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Aisle</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Storage Space</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Category</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Last Updated</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.id }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.name }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.sku }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.quantity }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.aisle.name }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.storage_space.space_number }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.category }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.last_updated }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">
+                <form method="POST" action="{% url 'delete_item' item.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 6px;">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="9" style="text-align:center; padding: 20px;">No items found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

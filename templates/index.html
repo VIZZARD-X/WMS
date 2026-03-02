@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+  .card {
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transform: translateY(0) scale(1);
+    will-change: transform, box-shadow;
+    animation: fadeInUp 0.6s ease forwards;
+    border: 1px solid #e2e8f0;
+  }
+
+  .card:hover {
+    transform: translateY(-12px) scale(1.015);
+  }
+
+  /* Glow by category */
+  .card.inventory:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 25px rgba(100, 149, 237, 0.25); /* blue */
+    border-color: #c3dafe;
+  }
+
+  .card.orders:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 25px rgba(72, 187, 120, 0.25); /* green */
+    border-color: #b2f5ea;
+  }
+
+  .card.shipments:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 25px rgba(255, 193, 7, 0.25); /* yellow */
+    border-color: #fefcbf;
+  }
+
+  .card.suppliers:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 25px rgba(0, 206, 209, 0.25); /* teal */
+    border-color: #b2f5ea;
+  }
+
+  .card.reports:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 25px rgba(147, 112, 219, 0.25); /* purple */
+    border-color: #e9d8fd;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+  }
+
+  .card-title svg {
+    width: 24px;
+    height: 24px;
+    fill: #4a5568;
+    transition: transform 0.4s ease, fill 0.4s ease;
+  }
+
+  .card:hover .card-title svg {
+    transform: rotate(8deg) scale(1.2);
+  }
+
+  .card.inventory:hover .card-title svg {
+    fill: #1e90ff;
+  }
+
+  .card.orders:hover .card-title svg {
+    fill: #38a169;
+  }
+
+  .card.shipments:hover .card-title svg {
+    fill: #ffc107;
+  }
+
+  .card.suppliers:hover .card-title svg {
+    fill: #00bcd4;
+  }
+
+  .card.reports:hover .card-title svg {
+    fill: #9f7aea;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .card-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    color: #1a202c;
+  }
+
+  .btn {
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #1a202c;
+  }
+
+  h3 {
+    color: #4a5568;
+  }
+
+  .card {
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+/* Float up on hover */
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+/* Gradient shimmer overlay */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+  transform: rotate(25deg);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+  animation: shimmer 8s infinite;
+}
+
+/* Floating loop animation */
+@keyframes floatCard {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: rotate(25deg) translate(-100%, -100%);
+  }
+  100% {
+    transform: rotate(25deg) translate(100%, 100%);
+  }
+}
+
+/* Glow effects */
+.inventory:hover {
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+}
+.orders:hover {
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
+}
+.shipments:hover {
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+}
+.suppliers:hover {
+  box-shadow: 0 0 20px rgba(23, 162, 184, 0.6);
+}
+.reports:hover {
+  box-shadow: 0 0 20px rgba(108, 117, 125, 0.6);
+}
+
+/* Ensure text stays above shimmer */
+.card-body {
+  position: relative;
+  z-index: 1;
+}
+
+</style>
+
+
+
+<h1 class="mb-4">Dashboard</h1>
+<h3 class="text-secondary mb-4">Welcome, {{ user.username }}!</h3>
+
+<div class="row">
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm inventory">
+      <div class="card-body">
+        <h5 class="card-title">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4h16v16H4z" fill="none"/>
+            <path d="M19 6H5v12h14V6zM7 16h2v-4H7v4zm4 0h2v-6h-2v6zm4 0h2v-2h-2v2z"/>
+          </svg>
+          Inventory
+        </h5>
+        <div class="card-subtitle">Click Here To Access The Inventory {{ total_inventory_items }}</div>
+        <p class="card-text fs-3 fw-bold">{{ inventory_count }}</p>
+        <a href="{% url 'inventory' %}" class="btn btn-primary">View Inventory</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm orders">
+      <div class="card-body">
+        <h5 class="card-title">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 18h10v-2H7v2zm0-4h10v-2H7v2zm0-6v2h10V8H7z"/>
+          </svg>
+          Orders
+        </h5>
+        <div class="card-subtitle">Total orders placed: {{ total_orders }}</div>
+        <p class="card-text fs-3 fw-bold">{{ orders_count }}</p>
+        <a href="{% url 'orders' %}" class="btn btn-success">View Orders</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm shipments">
+      <div class="card-body">
+        <h5 class="card-title">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 3h-2v10H7l5 5 5-5h-4V3z"/>
+          </svg>
+          Shipments
+        </h5>
+        <div class="card-subtitle">Total shipments in process: {{ total_shipments }}</div>
+        <p class="card-text fs-3 fw-bold">{{ shipments_count }}</p>
+        <a href="{% url 'shipments' %}" class="btn btn-warning text-white">View Shipments</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card shadow-sm suppliers">
+      <div class="card-body">
+        <h5 class="card-title">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12l18-12v24L3 12z"/>
+          </svg>
+          Supplier Info
+        </h5>
+        <div class="card-subtitle">Total registered suppliers: {{ total_suppliers }}</div>
+        <p class="card-text fs-3 fw-bold">{{ suppliers_count }}</p>
+        <a href="{% url 'suppliers' %}" class="btn btn-info text-white">See Details</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card shadow-sm reports">
+      <div class="card-body">
+        <h5 class="card-title">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3v18m9-9H3"/>
+          </svg>
+          Reports
+        </h5>
+        <div class="card-subtitle">Total reports available: 3</div>
+        <p class="card-text fs-3 fw-bold">{{ reports_count }}</p>
+        <a href="{% url 'reports' %}" class="btn btn-secondary">View Reports</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

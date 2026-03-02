@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Suppliers{% endblock %}
+
+{% block content %}
+<h1 style="text-align:center; margin:20px 0;">Supplier Management</h1>
+
+<<div style="text-align: center; margin-bottom: 20px;">
+    <div style="position: relative; display: inline-block;">
+        <button onclick="toggleDropdown()" style="padding:10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Manage Suppliers ▼
+        </button>
+        <div id="dropdown" style="display:none; position:absolute; background:white; border:1px solid #ccc; border-radius:5px; padding:10px; z-index:1; min-width:180px; text-align:left;">
+            <a href="{% url 'add_supplier' %}" style="display:block; padding:8px 12px; color:#333; text-decoration:none; border-bottom:1px solid #eee;">➕ Add Supplier</a>
+            
+            <a href="{% url 'delete_suppliers' %}" style="display:block; padding:8px 12px; color:#b00020; text-decoration:none;">❌ Delete Suppliers</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function toggleDropdown() {
+    var dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+</script>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    {% for supplier in suppliers %}
+    <div style="border:1px solid #ccc; border-radius:10px; padding:15px; width:250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); background:#f9f9f9;">
+        <h3>{{ supplier.name }}</h3>
+        <p><strong>Email:</strong> {{ supplier.email }}</p>
+        <p><strong>Phone:</strong> {{ supplier.phone }}</p>
+        <p><strong>Address:</strong> {{ supplier.address }}</p>
+        <p><strong>Company:</strong> {{ supplier.company }}</p>
+        <a href="{% url 'edit_supplier' supplier.pk %}" style="display:inline-block; margin-top:10px; padding:5px 10px; background:#2196F3; color:white; border-radius:5px; text-decoration:none;">Edit</a>
+    </div>
+    {% empty %}
+    <p>No suppliers yet. Add one!</p>
+    {% endfor %}
+</div>
+{% endblock %}

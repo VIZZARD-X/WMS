@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Shipments{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4 text-center fw-bold">Shipments</h1>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Shipment ID</th>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shipment in shipments %}
+          <tr>
+            <td>{{ shipment.id }}</td>
+            <td>{{ shipment.name }}</td>
+            <td>{{ shipment.quantity }}</td>
+            <td>
+              <span class="badge
+                {% if shipment.status == 'Completed' %}bg-success
+                {% elif shipment.status == 'Pending' %}bg-warning text-dark
+                {% else %}bg-info text-dark{% endif %}">
+                {{ shipment.status }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="openEditModal({{ shipment.id }}, '{{ shipment.name }}', '{{ shipment.quantity }}', '{{ shipment.status }}')">View/Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteShipment({{ shipment.id }})">Delete</button>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">No shipments found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3>Edit Shipment</h3>
+      <form id="editForm">
+        <input type="hidden" name="id" id="editShipmentId">
+        <label>Product:</label>
+        <input type="text" name="name" id="editShipmentName" required>
+        <label>Quantity:</label>
+        <input type="number" name="quantity" id="editShipmentQuantity" required>
+        <label>Status:</label>
+        <input type="text" name="status" id="editShipmentStatus" required>
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+        <button type="button" class="btn btn-danger mt-2" onclick="closeModal('editModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Modal -->
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h3>Add Shipment</h3>
+      <form id="addForm">
+        <label>Product:</label>
+        <input type="text" name="name" required>
+        <label>Quantity:</label>
+        <input type="number" name="quantity" required>
+        <label>Status:</label>
+        <input type="text" name="status" required>
+        <button type="submit" class="btn btn-success mt-2">Add</button>
+        <button type="button" class="btn btn-danger mt-2" onclick="closeModal('addModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openEditModal(id, name, quantity, status) {
+        document.getElementById('editShipmentId').value = id;
+        document.getElementById('editShipmentName').value = name;
+        document.getElementById('editShipmentQuantity').value = quantity;
+        document.getElementById('editShipmentStatus').value = status;
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function openAddModal() {
+        document.getElementById('addModal').style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch("{% url 'edit_shipment' %}", {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Shipment updated!");
+                location.reload();
+            } else {
+                alert("Error updating shipment.");
+            }
+        });
+    });
+
+    document.getElementById('addForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch("{% url 'add_shipment' %}", {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Shipment added!");
+                location.reload();
+            } else {
+                alert("Error adding shipment.");
+            }
+        });
+    });
+
+    function deleteShipment(id) {
+        if (confirm("Are you sure you want to delete this shipment?")) {
+            fetch(`{% url 'delete_shipment' 0 %}`.replace('0', id), {
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Shipment deleted!");
+                    location.reload();
+                } else {
+                    alert("Error deleting shipment.");
+                }
+            });
+        }
+    }
+  </script>
+  <div class="text-center mt-4">
+    <a href="{% url 'add_shipment' %}" class="btn btn-success">Add New Shipment</a>
+</div>
+{% endblock %}

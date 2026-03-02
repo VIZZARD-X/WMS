@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Add Item{% endblock %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 30px;
+        background: linear-gradient(145deg, #f3f4f6, #ffffff);
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.8s ease-in-out;
+        transition: all 0.3s ease;
+    }
+
+    .form-container:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 26px;
+        color: #333;
+    }
+
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        font-size: 15px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-container input:focus,
+    .form-container textarea:focus,
+    .form-container select:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        outline: none;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+        background-color: #45a049;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="form-container">
+    <h2>Add New Item</h2>
+    <form method="POST" action="{% url 'add_item' %}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Item Name" required>
+        <input type="text" name="sku" placeholder="SKU" required>
+        <input type="number" name="quantity" placeholder="Quantity" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <input type="text" name="category" placeholder="Category">
+        <select name="aisle" required>
+            <option value="" disabled selected>Select an Aisle</option>
+            {% for aisle in aisles %}
+                <option value="{{ aisle.id }}">{{ aisle.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Add Item</button>
+    </form>
+</div>
+{% endblock %}
