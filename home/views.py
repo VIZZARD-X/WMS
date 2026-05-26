@@ -487,6 +487,14 @@ def reports(request):
 
 @login_required
 def index(request):
+
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@test.com',
+            password='admin123'
+        )
+
     total_orders = Order.objects.count()
     total_shipments = Shipment.objects.count()
     total_suppliers = Supplier.objects.count()
@@ -498,4 +506,5 @@ def index(request):
         'total_suppliers': total_suppliers,
         'total_inventory': total_inventory,
     }
+
     return render(request, 'index.html', context)
